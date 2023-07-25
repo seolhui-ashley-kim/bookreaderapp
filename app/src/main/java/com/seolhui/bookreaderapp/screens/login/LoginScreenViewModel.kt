@@ -43,6 +43,7 @@ class LoginScreenViewModel : ViewModel() {
         }
 
 
+    // create a user account with the given email and password
     fun createUserWithEmailAndPassword(
         email: String,
         password: String,
