@@ -54,6 +54,8 @@ class LoginScreenViewModel : ViewModel() {
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
+                        val a = 'b'
+                        val c = 'c'
                         //me@gmail.com
                         val displayName = task.result?.user?.email?.split('@')?.get(0)
                         createUser(displayName)
