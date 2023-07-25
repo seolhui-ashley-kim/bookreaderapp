@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1062493107160",
+    "project_id": "readerappcompose9",
+    "storage_bucket": "readerappcompose9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1062493107160:android:7226a0df678b4dadbcb8ad",
+        "android_client_info": {
+          "package_name": "com.seolhui.bookreaderapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1062493107160-imt82e6egtnlntkfif2dki1hqf7sv0m0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8RfHGNnUrGMIR-3gBFnNMDOKzRiKnU5o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1062493107160-imt82e6egtnlntkfif2dki1hqf7sv0m0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
