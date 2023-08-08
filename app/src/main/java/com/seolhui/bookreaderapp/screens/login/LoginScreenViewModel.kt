@@ -15,10 +15,8 @@ import kotlinx.coroutines.launch
 class LoginScreenViewModel : ViewModel() {
     //val loadingState = MutableStateFlow(LoadingState.IDLE)
     private val auth: FirebaseAuth = Firebase.auth
-
     private val _loading = MutableLiveData(false)
     val loading: LiveData<Boolean> = _loading
-
 
     fun signInWithEmailAndPassword(email: String, password: String, home: () -> Unit) =
         viewModelScope.launch {
@@ -26,19 +24,17 @@ class LoginScreenViewModel : ViewModel() {
                 auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            Log.d(
-                                "FB",
-                                "signInWithEmailAndPassword: YAYAYAY${task.result}"
-                            )
-                            //TODO("take them home")
+                            Log.d(TAG, "successfully signed in")
+                            //TODO: navigate to home
                             home()
                         } else {
-
+                            //TODO: handle errors
+                            Log.e(TAG, "Sign in failed")
                         }
                     }
 
-            } catch (ex: Exception) {
-
+            } catch (e: Exception) {
+                Log.e(TAG, "exception while signing in")
             }
         }
 
@@ -54,19 +50,16 @@ class LoginScreenViewModel : ViewModel() {
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        //me@gmail.com
                         val displayName = task.result?.user?.email?.split('@')?.get(0)
                         createUser(displayName)
                         home()
                     } else {
-                        Log.d("FB", "createUserWithEmailAndPassword: ${task.result.toString()}")
+                        Log.d(TAG, "createUserWithEmailAndPassword: ${task.result}")
                     }
                     _loading.value = false
 
                 }
         }
-
-
     }
 
     private fun createUser(displayName: String?) {
@@ -81,9 +74,10 @@ class LoginScreenViewModel : ViewModel() {
             id = null
         ).toMap()
 
-        FirebaseFirestore.getInstance().collection("users")
-            .add(user)
+        FirebaseFirestore.getInstance().collection("users").add(user)
+    }
 
-
+    companion object {
+        private val TAG = this::class.simpleName
     }
 }

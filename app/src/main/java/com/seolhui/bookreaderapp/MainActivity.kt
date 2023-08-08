@@ -23,7 +23,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             ReaderApp_Theme {
                 ReaderApp()
-
             }
         }
     }
@@ -34,7 +33,6 @@ fun ReaderApp() {
     Surface(
         modifier = Modifier
             .fillMaxSize()
-
         ) {
         Column(
             verticalArrangement = Arrangement.Center,
@@ -42,7 +40,6 @@ fun ReaderApp() {
         ) {
             ReaderNavigation()
         }
-
     }
 }
 

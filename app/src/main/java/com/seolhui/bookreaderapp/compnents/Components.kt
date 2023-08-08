@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -49,18 +50,17 @@ import com.google.firebase.auth.FirebaseAuth
 @Preview
 @Composable
 fun ReaderLogo(modifier: Modifier = Modifier) {
-    Text(text = "A. Reader",
+    Text(text = stringResource(id = R.string.app_name),
         modifier = modifier.padding(bottom = 16.dp),
         style = MaterialTheme.typography.h3,
         color = Color.Red.copy(alpha = 0.5f))
 }
 
-
 @Composable
 fun EmailInput(
     modifier: Modifier = Modifier,
     emailState: MutableState<String>,
-    labelId: String = "Email",
+    labelId: String = stringResource(id = R.string.email),
     enabled: Boolean = true,
     imeAction: ImeAction = ImeAction.Next,
     onAction: KeyboardActions = KeyboardActions.Default
@@ -156,15 +156,11 @@ fun BookRating(score: Double = 4.5) {
         elevation = 6.dp,
         color = Color.White) {
         Column(modifier = Modifier.padding(4.dp)) {
-            Icon(imageVector = Icons.Filled.StarBorder, contentDescription = "Start",
+            Icon(imageVector = Icons.Filled.StarBorder, contentDescription = stringResource(id = R.string.start),
                 modifier = Modifier.padding(3.dp))
             Text(text = score.toString(), style = MaterialTheme.typography.subtitle1)
-
         }
-
     }
-
-
 }
 
 @Composable
@@ -192,7 +188,7 @@ fun ListCard(book: MBook,
             Row(horizontalArrangement = Arrangement.Center) {
 
                 Image(painter = rememberAsyncImagePainter(model = book.photoUrl.toString()),
-                    contentDescription = "book image",
+                    contentDescription = stringResource(id = R.string.book_image),
                     modifier = Modifier
                         .height(140.dp)
                         .width(100.dp)
@@ -203,13 +199,13 @@ fun ListCard(book: MBook,
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(imageVector = Icons.Rounded.FavoriteBorder,
-                        contentDescription = "Fav Icon",
+                        contentDescription = stringResource(id = R.string.favorite_icon),
                         modifier = Modifier.padding(bottom = 1.dp))
 
                     BookRating(score = book.rating!!)
                 }
-
             }
+
             Text(text = book.title.toString(), modifier = Modifier.padding(4.dp),
                 fontWeight = FontWeight.Bold,
                 maxLines = 2,
@@ -226,21 +222,16 @@ fun ListCard(book: MBook,
             verticalAlignment = Alignment.Bottom) {
             isStartedReading.value = book.startedReading != null
 
-
-            RoundedButton(label = if (isStartedReading.value)  "Reading" else "Not Yet",
+            RoundedButton(label = if (isStartedReading.value) stringResource(id = R.string.reading) else stringResource(id = R.string.not_yet),
                 radius = 70)
-
         }
     }
-
-
-
 }
 
 @Preview
 @Composable
 fun RoundedButton(
-    label: String = "Reading",
+    label: String = stringResource(id = R.string.reading),
     radius: Int = 29,
     onPress: () -> Unit = {}) {
     Surface(modifier = Modifier.clip(RoundedCornerShape(
@@ -256,12 +247,8 @@ fun RoundedButton(
             horizontalAlignment = Alignment.CenterHorizontally) {
             Text(text = label, style = TextStyle(color = Color.White,
                 fontSize = 15.sp),)
-
         }
-
     }
-
-
 }
 
 @Composable
@@ -277,7 +264,7 @@ fun ReaderAppBar(
         Row(verticalAlignment = Alignment.CenterVertically){
             if (showProfile) {
                 Icon(imageVector = Icons.Default.Favorite,
-                    contentDescription = "Logo Icon",
+                    contentDescription = stringResource(id = R.string.logo_icon),
                     modifier = Modifier
                         .clip(RoundedCornerShape(12.dp))
                         .scale(0.9f)
@@ -285,7 +272,7 @@ fun ReaderAppBar(
 
             }
             if (icon != null) {
-                Icon(imageVector = icon, contentDescription = "arrow back",
+                Icon(imageVector = icon, contentDescription = stringResource(id = R.string.back),
                     tint = Color.Red.copy(alpha = 0.7f),
                     modifier = Modifier.clickable { onBackArrowClicked.invoke() })
             }
@@ -307,19 +294,19 @@ fun ReaderAppBar(
                     }
             }) {
                 if (showProfile) Row() {
-                    Icon(imageVector = Icons.Filled.Logout ,
-                        contentDescription = "Logout" ,
+                    Icon(
+                        imageVector = Icons.Filled.Logout,
+                        contentDescription = stringResource(id = R.string.logout),
                         // tint = Color.Green.copy(alpha = 0.4f)
                     )
-                }else Box {}
-
-
-
+                }else {
+                    //TODO: update further
+                    Box {}
+                }
             }
         },
         backgroundColor = Color.Transparent,
         elevation = 0.dp)
-
 }
 
 @Composable
@@ -328,11 +315,9 @@ fun FABContent(onTap: () -> Unit) {
         shape = RoundedCornerShape(50.dp),
         backgroundColor = Color(0xFF92CBDF)) {
         Icon(imageVector = Icons.Default.Add,
-            contentDescription = "Add a Book",
+            contentDescription = stringResource(id = R.string.add_a_book),
             tint = Color.White)
-
     }
-
 }
 
 @Composable
@@ -345,9 +330,7 @@ fun TitleSection(modifier: Modifier = Modifier,
                 fontStyle = FontStyle.Normal,
                 textAlign = TextAlign.Left)
         }
-
     }
-
 }
 
 //Rating Bar
@@ -378,7 +361,7 @@ fun RatingBar(
         for (i in 1..5) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_baseline_star_24),
-                contentDescription = "star",
+                contentDescription = stringResource(id = R.string.star),
                 modifier = modifier
                     .width(size)
                     .height(size)

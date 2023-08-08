@@ -1,6 +1,72 @@
 <resources>
+    <!-- General -->
     <string name="app_name">ReaderApp</string>
     <string name="sure">Are you sure you want to delete this book?</string>
     <string name="action">This action is not reversible</string>
+    <string name="button_yes">Yes</string>
+    <string name="button_no">No</string>
+    <string name="not_yet">Not Yet</string>
+    <string name="start">Start</string>
+    <string name="back">Back</string>
+    <string name="not_applicable">N/A</string>
+    <string name="profile">Profile</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- Account -->
     <string name="create_acct"> Please enter a valid email and password that is at least 6 characters</string>
+    <string name="password">Password</string>
+    <string name="create_account">Create Account</string>
+    <string name="login">Login</string>
+    <string name="logout">Log out</string>
+    <string name="new_user">New User?</string>
+    <string name="sign_up">Sign up</string>
+    <string name="android_developer">Android Developer</string>
+    <string name="email">Email</string>
+    <string name="reading_list">Reading List</string>
+
+    <!-- Book -->
+    <string name="loading_text">Loading…</string>
+    <string name="search">Search</string>
+    <string name="book_image">book image</string>
+    <string name="person_icon">Person icon</string>
+    <string name="thumbs_up">Thumbs up</string>
+    <string name="title_author">Author: %1$s</string>
+    <string name="title_started">Started: %1$s</string>
+    <string name="title_finished">Finished: %1$s</string>
+    <string name="title_page_count">Page Count: %1$s</string>
+    <string name="title_categories">Categories: %1$s</string>
+    <string name="title_published">Published: %1$s</string>
+    <string name="title_date">Date: %1$s</string>
+    <string name="book_stats">Book Stats</string>
+    <string name="hi_user">Hi %1$s</string>
+    <string name="your_stats">Your Stats</string>
+    <string name="you_are_reading">You\'re reading %1$s books</string>
+    <string name="you_have_read">You\'ve read %1$s books</string>
+    <string name="favorite_icon">Favorite Icon</string>
+    <string name="logo_icon">Logo Icon</string>
+    <string name="add_a_book">Add a book</string>
+    <string name="your_reading_now">Your reading\nactivity right now…</string>
+    <string name="no_books_found_add">No books found. Add a Book</string>
+    <string name="book_details">Book Details</string>
+
+    <!-- Update -->
+    <string name="update_book">Update Book</string>
+    <string name="no_thoughts">No thoughts available.</string>
+    <string name="start_reading">Start Reading</string>
+    <string name="started_reading">Started Reading!</string>
+    <string name="started_on">Started on: %1$s</string>
+    <string name="mark_as_read">Mark as Read</string>
+    <string name="finished_reading">Finished Reading!</string>
+    <string name="finished_on">Finished on: %1$s</string>
+    <string name="update">Update</string>
+    <string name="reading">Reading</string>
+    <string name="delete">Delete</string>
+    <string name="delete_book">Delete Book</string>
+    <string name="great_book">Great Book!</string>
+    <string name="enter_thoughts">Enter Your thoughts</string>
+    <string name="rating">Rating</string>
+    <string name="book_updated">Book Updated Successfully!</string>
+    <string name="read_change_yourself">"Read. Change. Yourself"</string>
+    <string name="star">Star</string>
 </resources>

@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -28,6 +29,7 @@ import com.seolhui.bookreaderapp.model.MBook
 import com.seolhui.bookreaderapp.screens.home.HomeScreenViewModel
 import com.seolhui.bookreaderapp.utils.formatDate
 import com.google.firebase.auth.FirebaseAuth
+import com.seolhui.bookreaderapp.R
 import java.util.*
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -43,7 +45,7 @@ fun ReaderStatsScreen(
     Scaffold(
         topBar = {
             ReaderAppBar(
-                title = "Book Stats",
+                title = stringResource(id = R.string.book_stats),
                 icon = Icons.Default.ArrowBack,
                 showProfile = false,
                 navController = navController
@@ -68,14 +70,12 @@ fun ReaderStatsScreen(
                             .size(45.dp)
                             .padding(2.dp)
                     ) {
-                        Icon(imageVector = Icons.Sharp.Person, contentDescription = "Icon")
+                        Icon(imageVector = Icons.Sharp.Person, contentDescription = stringResource(
+                            id = R.string.person_icon
+                        ))
                     }
                     Text(
-                        text = "Hi, ${
-                            currentUser?.email.toString().split("@")[0].uppercase(
-                                Locale.ROOT
-                            )
-                        }"
+                        text = String.format(stringResource(id = R.string.hi_user), currentUser?.email.toString().split("@")[0])
                     )
                 }
                 Card(
@@ -103,13 +103,13 @@ fun ReaderStatsScreen(
                             .padding(start = 25.dp, top = 4.dp, bottom = 4.dp),
                         horizontalAlignment = Alignment.Start
                     ) {
-                        Text(text = "Your Stats", style = MaterialTheme.typography.h5)
+                        Text(text = stringResource(id = R.string.your_stats), style = MaterialTheme.typography.h5)
                         Divider()
-                        Text(text = "You're reading: ${readingBooks.size} books")
-                        Text(text = "You've read: ${readBooksList.size} books")
+                        Text(text = String.format(stringResource(id = R.string.you_are_reading), readBooksList.size))
+                        Text(text = String.format(stringResource(id = R.string.you_have_read), readBooksList.size))
                     }
-
                 }
+
                 if (viewModel.data.value.loading == true) {
                     LinearProgressIndicator()
                 } else {
@@ -134,14 +134,9 @@ fun ReaderStatsScreen(
                         }
                     }
                 }
-
             }
-
-
         }
-
     }
-
 }
 
 
@@ -158,22 +153,16 @@ fun BookRowStats(book: MBook) {
             modifier = Modifier.padding(5.dp), verticalAlignment = Alignment.Top
         ) {
             val imageUrl: String =
-                if (book.photoUrl.toString()
-                        .isEmpty()
-                ) "http://books.google.com/books/content?id=LY1FDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-                else {
-                    book.photoUrl.toString()
-                }
+                book.photoUrl.toString().ifEmpty { "http://books.google.com/books/content?id=LY1FDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api" }
             Image(
                 painter = rememberImagePainter(data = imageUrl),
-                contentDescription = "book image",
+                contentDescription = stringResource(R.string.book_image),
                 modifier = Modifier
                     .width(80.dp)
                     .fillMaxHeight()
                     .padding(4.dp)
             )
-            Column(
-            ) {
+            Column {
 
                 Row(horizontalArrangement = Arrangement.SpaceBetween) {
 
@@ -182,23 +171,23 @@ fun BookRowStats(book: MBook) {
                         Spacer(modifier = Modifier.fillMaxWidth(0.8f))
                         Icon(
                             imageVector = Icons.Default.ThumbUp,
-                            contentDescription = "Thumbs up",
+                            contentDescription = stringResource(id = R.string.thumbs_up),
                             tint = Color.Green.copy(alpha = 0.5f)
                         )
-
-                    }else{
+                    } else{
+                        //TODO: update further
                         Box {}
                     }
                 }
                 Text(
-                    text = "Author: ${book.authors}",
+                    text = String.format(stringResource(R.string.title_author), book.authors),
                     overflow = TextOverflow.Clip,
                     fontStyle = FontStyle.Italic,
                     style = MaterialTheme.typography.caption
                 )
 
                 Text(
-                    text = "Started: ${formatDate(book.startedReading!!)}",
+                    text = String.format(stringResource(R.string.title_started), book.startedReading),
                     softWrap = true,
                     overflow = TextOverflow.Clip,
                     fontStyle = FontStyle.Italic,
@@ -206,17 +195,12 @@ fun BookRowStats(book: MBook) {
                 )
 
                 Text(
-                    text = "Finished: ${formatDate(book.finishedReading!!)}",
+                    text = String.format(stringResource(R.string.title_finished), book.finishedReading),
                     overflow = TextOverflow.Clip,
                     fontStyle = FontStyle.Italic,
                     style = MaterialTheme.typography.caption
                 )
-
-
             }
-
         }
-
     }
-
 }

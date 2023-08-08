@@ -1,9 +1,5 @@
 package com.seolhui.bookreaderapp.model
 
-import com.seolhui.bookreaderapp.model.ImageLinks
-import com.seolhui.bookreaderapp.model.IndustryIdentifier
-import com.seolhui.bookreaderapp.model.PanelizationSummary
-import com.seolhui.bookreaderapp.model.ReadingModes
 
 data class VolumeInfo(
     val allowAnonLogging: Boolean,

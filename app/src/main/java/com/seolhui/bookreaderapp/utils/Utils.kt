@@ -4,8 +4,7 @@ import android.icu.text.DateFormat
 import com.google.firebase.Timestamp
 
 fun formatDate(timestamp: Timestamp): String {
-    val date = DateFormat.getDateInstance()
+    return DateFormat.getDateInstance()
         .format(timestamp.toDate())
-        .toString().split(",")[0]  //Mar 12, 2023
-    return date
+        .toString().split(",")[0]
 }

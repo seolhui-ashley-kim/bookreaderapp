@@ -53,8 +53,7 @@ fun ReaderLoginScreen(navController: NavController, viewModel: LoginScreenViewMo
                 viewModel.signInWithEmailAndPassword(email, password) {
                     navController.navigate(ReaderScreens.ReaderHomeScreen.name)
                 }
-            }
-            else {
+            } else {
                 UserForm(loading = false, isCreateAccount = true) { email, password ->
                     viewModel.createUserWithEmailAndPassword(email, password) {
                         navController.navigate(ReaderScreens.ReaderHomeScreen.name)
@@ -71,8 +70,8 @@ fun ReaderLoginScreen(navController: NavController, viewModel: LoginScreenViewMo
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val text = if (showLoginForm.value) "Sign up" else "Login"
-            Text(text = "New User?")
+            val text = if (showLoginForm.value) stringResource(id = R.string.sign_up) else stringResource(id = R.string.login)
+            Text(text = stringResource(id = R.string.new_user))
             Text(text,
                 modifier = Modifier
                     .clickable {
@@ -124,15 +123,18 @@ fun UserForm(
 
         PasswordInput(modifier = Modifier.focusRequester(passwordFocusRequest),
             passwordState = password,
-            labelId = "Password",
-            enabled = !loading,//todo change this
+            labelId = stringResource(id = R.string.password),
+            enabled = !loading,
             passwordVisibility = passwordVisibility,
             onAction = KeyboardActions {
                 if (!valid) return@KeyboardActions
                 onDone(email.value.trim(), password.value.trim())
             })
+
         SubmitButton(
-            textId = if (isCreateAccount) "Create Account" else "Login",
+            textId = if (isCreateAccount) stringResource(id = R.string.create_account) else stringResource(
+                id = R.string.login
+            ),
             loading = loading,
             validInputs = valid
         ) {
@@ -140,8 +142,6 @@ fun UserForm(
             keyboardController?.hide()
         }
     }
-
-
 }
 
 @Composable
@@ -158,9 +158,6 @@ fun SubmitButton(
     ) {
         if (loading) CircularProgressIndicator(modifier = Modifier.size(253.dp))
         else Text(text = textId, modifier = Modifier.padding(5.dp))
-
-
     }
-
 }
 

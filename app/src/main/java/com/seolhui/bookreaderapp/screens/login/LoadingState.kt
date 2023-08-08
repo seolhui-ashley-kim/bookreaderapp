@@ -15,6 +15,4 @@ data class LoadingState(val status: Status, val message: String? = null) {
         LOADING,
         IDLE
     }
-
-
 }

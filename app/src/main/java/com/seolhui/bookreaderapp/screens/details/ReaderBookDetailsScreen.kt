@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.core.text.HtmlCompat
@@ -32,6 +33,7 @@ import com.seolhui.bookreaderapp.model.MBook
 import com.seolhui.bookreaderapp.navigation.ReaderScreens
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.seolhui.bookreaderapp.R
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "ProduceStateDoesNotAssignValue")
 @Composable
@@ -41,7 +43,7 @@ fun BookDetailsScreen(
 
     Scaffold(topBar = {
         ReaderAppBar(
-            title = "Book Details",
+            title = stringResource(id = R.string.book_details),
             icon = Icons.Default.ArrowBack,
             showProfile = false,
             navController = navController
@@ -66,19 +68,16 @@ fun BookDetailsScreen(
                 }.value
 
                 if (bookInfo.data == null) {
-                    Row() {
+                    Row {
                         LinearProgressIndicator()
-                        Text(text = "Loading...")
+                        Text(text = stringResource(id = R.string.loading_text))
                     }
                 } else {
                     ShowBookDetails(bookInfo, navController)
                 }
-
             }
-
         }
     }
-
 }
 
 @Composable
@@ -93,14 +92,13 @@ fun ShowBookDetails(bookInfo: Resource<Item>, navController: NavController) {
             Image(
                 painter = rememberAsyncImagePainter(
                     model = bookData.imageLinks.thumbnail
-                ), contentDescription = "Book Image",
+                ), contentDescription = stringResource(id = R.string.book_image),
                 modifier = Modifier
                     .width(90.dp)
                     .height(90.dp)
                     .padding(1.dp)
             )
         }
-
     }
 
     Text(
@@ -109,16 +107,18 @@ fun ShowBookDetails(bookInfo: Resource<Item>, navController: NavController) {
         overflow = TextOverflow.Ellipsis,
         maxLines = 19
     )
-    Text(text = "Authors: ${bookData?.authors.toString()}")
-    Text(text = "Page Count: ${bookData?.pageCount.toString()}")
+
+
+    Text(text = String.format(stringResource(id = R.string.title_author), bookData?.authors.toString()))
+    Text(text = String.format(stringResource(id = R.string.title_page_count), bookData?.pageCount))
     Text(
-        text = "Categories: ${bookData?.categories.toString()}",
+        text = String.format(stringResource(id = R.string.title_categories), bookData?.categories.toString()),
         style = MaterialTheme.typography.subtitle1,
         overflow = TextOverflow.Ellipsis,
         maxLines = 3
     )
     Text(
-        text = "Published: ${bookData?.publishedDate.toString()}",
+        text = String.format(stringResource(id = R.string.title_published), bookData?.publishedDate),
         style = MaterialTheme.typography.subtitle1
     )
 
@@ -145,10 +145,8 @@ fun ShowBookDetails(bookInfo: Resource<Item>, navController: NavController) {
                 .padding(3.dp)
         ) {
             item {
-
                 Text(text = cleanDescription)
             }
-
         }
     }
 
@@ -159,7 +157,7 @@ fun ShowBookDetails(bookInfo: Resource<Item>, navController: NavController) {
         horizontalArrangement = Arrangement.SpaceAround
     ) {
 
-        RoundedButton(label = "Save") {
+        RoundedButton(label = stringResource(id = R.string.save)) {
             //save this book to the firestore database
             val book = MBook(
                 title = bookData.title,
@@ -179,23 +177,18 @@ fun ShowBookDetails(bookInfo: Resource<Item>, navController: NavController) {
         }
         Spacer(modifier = Modifier.width(25.dp))
 
-        RoundedButton(label = "Cancel") {
+        RoundedButton(label = stringResource(id = R.string.cancel)) {
             navController.popBackStack()
         }
-
-
     }
-
-
 }
-
 
 fun saveToFirebase(book: MBook, navController: NavController) {
     val db = FirebaseFirestore.getInstance()
     val dbCollections = db.collection("books")
 
     if (book.toString().isNotEmpty()) {
-
+        //TODO: update logic to ViewModel
         dbCollections.add(book)
             .addOnSuccessListener { documentRef ->
                 val docId = documentRef.id
@@ -206,12 +199,10 @@ fun saveToFirebase(book: MBook, navController: NavController) {
                             navController.popBackStack()
                         }
                     }.addOnFailureListener {
-                        Log.d("TAG", "SaveToFirebase: Error ")
+                        Log.d("ReaderbookDetailsScreen", "SaveToFirebase: Error ")
                     }
             }
     } else {
-
-
+        //TODO: update further
     }
-
 }

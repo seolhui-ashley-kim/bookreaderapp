@@ -11,6 +11,7 @@ import com.seolhui.bookreaderapp.repository.FireRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
     private val repository: FireRepository
@@ -28,9 +29,11 @@ class HomeScreenViewModel @Inject constructor(
             data.value = repository.getAllBooksFromDatabase()
             if (!data.value.data.isNullOrEmpty()) data.value.loading = false
         }
-        Log.d("GET", "getAllBooksFromDatabase: ${data.value.data?.toList().toString()}")
+        Log.d(TAG, "getAllBooksFromDatabase: ${data.value.data?.toList().toString()}")
 
     }
 
-
+    companion object {
+        private val TAG = this::class.simpleName
+    }
 }

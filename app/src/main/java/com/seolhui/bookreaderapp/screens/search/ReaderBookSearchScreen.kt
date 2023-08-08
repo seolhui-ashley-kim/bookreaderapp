@@ -19,12 +19,14 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
+import com.seolhui.bookreaderapp.R
 import com.seolhui.bookreaderapp.compnents.InputField
 import com.seolhui.bookreaderapp.compnents.ReaderAppBar
 import com.seolhui.bookreaderapp.model.Item
@@ -39,12 +41,11 @@ fun SearchScreen(
 
     Scaffold(topBar = {
         ReaderAppBar(
-            title = "Search",
+            title = stringResource(id = R.string.search),
             icon = Icons.Default.ArrowBack,
             navController = navController,
             showProfile = false
         ) {
-            //navController.popBackStack()
             navController.navigate(ReaderScreens.ReaderHomeScreen.name)
         }
     }) {
@@ -56,15 +57,12 @@ fun SearchScreen(
                         .padding(16.dp)
                 ) { searchQuery ->
                     viewModel.searchBooks(query = searchQuery)
-
                 }
                 Spacer(modifier = Modifier.height(13.dp))
                 BookList(navController = navController)
 
             }
         }
-
-
     }
 }
 
@@ -76,7 +74,7 @@ fun BookList(navController: NavController, viewModel: BookSearchViewModel = hilt
     if (viewModel.isLoading) {
         Row(horizontalArrangement = Arrangement.SpaceBetween) {
             LinearProgressIndicator()
-            Text(text = "Loading...")
+            Text(text = stringResource(id = R.string.loading_text))
         }
     } else {
 
@@ -88,7 +86,6 @@ fun BookList(navController: NavController, viewModel: BookSearchViewModel = hilt
             }
         }
     }
-
 }
 
 @Composable
@@ -104,13 +101,10 @@ fun BookRow(book: Item, navController: NavController) {
             modifier = Modifier.padding(5.dp), verticalAlignment = Alignment.Top
         ) {
             val imageUrl: String =
-                if (book.volumeInfo.imageLinks.smallThumbnail.isEmpty()) "http://books.google.com/books/content?id=LY1FDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-                else {
-                    book.volumeInfo.imageLinks.smallThumbnail
-                }
+                book.volumeInfo.imageLinks.smallThumbnail.ifEmpty { "http://books.google.com/books/content?id=LY1FDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api" }
             Image(
                 painter = rememberImagePainter(data = imageUrl),
-                contentDescription = "book image",
+                contentDescription = stringResource(id = R.string.book_image),
                 modifier = Modifier
                     .width(80.dp)
                     .fillMaxHeight()
@@ -120,33 +114,28 @@ fun BookRow(book: Item, navController: NavController) {
             ) {
                 Text(text = book.volumeInfo.title, overflow = TextOverflow.Ellipsis)
                 Text(
-                    text = "Author: ${book.volumeInfo.authors}",
+                    text = String.format(stringResource(id = R.string.title_author), book.volumeInfo.authors),
                     overflow = TextOverflow.Clip,
                     fontStyle = FontStyle.Italic,
                     style = MaterialTheme.typography.caption
                 )
 
                 Text(
-                    text = "Date: ${book.volumeInfo.publishedDate}",
+                    text = String.format(stringResource(id = R.string.title_date), book.volumeInfo.publishedDate),
                     overflow = TextOverflow.Clip,
                     fontStyle = FontStyle.Italic,
                     style = MaterialTheme.typography.caption
                 )
 
                 Text(
-                    text = "${book.volumeInfo.categories}",
+                    text = "${book.volumeInfo.categories}", //TODO: upate further
                     overflow = TextOverflow.Clip,
                     fontStyle = FontStyle.Italic,
                     style = MaterialTheme.typography.caption
                 )
-
-
             }
-
         }
-
     }
-
 }
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -154,7 +143,7 @@ fun BookRow(book: Item, navController: NavController) {
 fun SearchForm(
     modifier: Modifier = Modifier,
     loading: Boolean = false,
-    hint: String = "Search",
+    hint: String = stringResource(id = R.string.search),
     onSearch: (String) -> Unit = {}
 ) {
     Column {
@@ -163,7 +152,7 @@ fun SearchForm(
         val valid = remember(searchQueryState.value) { searchQueryState.value.trim().isNotEmpty() }
 
         InputField(valueState = searchQueryState,
-            labelId = "Search",
+            labelId = stringResource(id = R.string.search),
             enabled = true,
             onAction = KeyboardActions {
                 if (!valid) return@KeyboardActions
@@ -172,11 +161,4 @@ fun SearchForm(
                 keyboardController?.hide()
             })
     }
-
 }
-
-
-
-
-
-

@@ -16,12 +16,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.seolhui.bookreaderapp.R
 import com.seolhui.bookreaderapp.compnents.ReaderLogo
 import com.seolhui.bookreaderapp.navigation.ReaderScreens
-import kotlinx.coroutines.delay
 
 
 @Composable
@@ -38,7 +38,8 @@ fun ReaderSplashScreen(navController: NavController) {
                 durationMillis = 800,
                 easing = { OvershootInterpolator(8f).getInterpolation(it) })
         )
-        delay(2000L)
+
+        //TODO: update further
 //        if (FirebaseAuth.getInstance().currentUser?.email.isNullOrEmpty()) {
 //            navController.navigate(ReaderScreens.LoginScreen.name)
 //        } else {
@@ -67,16 +68,10 @@ fun ReaderSplashScreen(navController: NavController) {
             ReaderLogo()
             Spacer(modifier = Modifier.height(15.dp))
             Text(
-                text = "\"Read. Change. Yourself\"",
+                text = stringResource(id = R.string.update_book),
                 style = MaterialTheme.typography.h5,
                 color = Color.LightGray
             )
-
-
         }
-
     }
-
 }
-
-

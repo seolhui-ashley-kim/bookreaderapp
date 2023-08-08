@@ -42,15 +42,18 @@ class BookSearchViewModel @Inject constructor(private val repository: BookReposi
                     }
                     is Resource.Error -> {
                         isLoading = false
-                        Log.d("network", "searchBooks: Failed getting books")
+                        Log.e(TAG, "searchBooks: Failed getting books")
                     }
                     else -> {isLoading = false}
                 }
             } catch (exception: Exception) {
                 isLoading = false
-                Log.d("network", "searchBooks: ${exception.message.toString()}")
+                Log.e(TAG, "exception in searchBooks: ${exception.message.toString()}")
             }
         }
+    }
 
+    companion object {
+        private val TAG = this::class.simpleName
     }
 }

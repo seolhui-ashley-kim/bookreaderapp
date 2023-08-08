@@ -51,7 +51,7 @@ fun BookUpdateScreen(
 
     Scaffold(topBar = {
         ReaderAppBar(
-            title = "Update Book",
+            title = stringResource(id = R.string.update_book),
             icon = Icons.Default.ArrowBack,
             showProfile = false,
             navController = navController
@@ -81,11 +81,9 @@ fun BookUpdateScreen(
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = CenterHorizontally
             ) {
-                Log.d("INFO", "BookUpdateScreen: ${viewModel.data.value.data.toString()}")
                 if (bookInfo.loading == true) {
                     LinearProgressIndicator()
                     bookInfo.loading = false
-
                 } else {
                     Surface(
                         modifier = Modifier
@@ -98,21 +96,15 @@ fun BookUpdateScreen(
                             bookInfo = viewModel.data.value,
                             bookItemId = bookItemId
                         )
-
                     }
 
                     ShowSimpleForm(book = viewModel.data.value.data?.first { mBook ->
                         mBook.googleBookId == bookItemId
                     }!!, navController)
-
                 }
-
-
             }
         }
-
     }
-
 }
 
 @ExperimentalComposeUiApi
@@ -139,11 +131,9 @@ fun ShowSimpleForm(
     }
     SimpleForm(
         defaultValue = if (book.notes.toString().isNotEmpty()) book.notes.toString()
-        else "No thoughts available."
+        else stringResource(id = R.string.no_thoughts)
     ) { note ->
         notesText.value = note
-
-
     }
 
     Row(
@@ -157,17 +147,17 @@ fun ShowSimpleForm(
         ) {
             if (book.startedReading == null) {
                 if (!isStartedReading.value) {
-                    Text(text = "Start Reading")
+                    Text(text = stringResource(id = R.string.start_reading))
                 } else {
                     Text(
-                        text = "Started Reading!",
+                        text = stringResource(id = R.string.started_reading),
                         modifier = Modifier.alpha(0.6f),
                         color = Color.Red.copy(alpha = 0.5f)
                     )
                 }
 
             } else {
-                Text("Started on: ${formatDate(book.startedReading!!)}")
+                Text(String.format(stringResource(id = R.string.started_on), formatDate(book.startedReading)))
             }
         }
         Spacer(modifier = Modifier.height(4.dp))
@@ -177,24 +167,21 @@ fun ShowSimpleForm(
         ) {
             if (book.finishedReading == null) {
                 if (!isFinishedReading.value) {
-                    Text(text = "Mark as Read")
+                    Text(text = stringResource(id = R.string.mark_as_read))
                 } else {
-                    Text(text = "Finished Reading!")
+                    Text(text = stringResource(id = R.string.finished_reading))
                 }
             } else {
-                Text(text = "Finished on: ${formatDate(book.finishedReading!!)}")
+                Text(String.format(stringResource(id = R.string.finished_on), formatDate(book.finishedReading)))
             }
-
         }
-
     }
-    Text(text = "Rating", modifier = Modifier.padding(bottom = 3.dp))
+
+    Text(text = stringResource(id = R.string.rating), modifier = Modifier.padding(bottom = 3.dp))
     book.rating?.toInt().let {
         RatingBar(rating = it!!) { rating ->
             ratingVal.value = rating
-            Log.d("TAG", "ShowSimpleForm: ${ratingVal.value}")
         }
-
     }
 
     Spacer(modifier = Modifier.padding(bottom = 15.dp))
@@ -217,7 +204,8 @@ fun ShowSimpleForm(
             "notes" to notesText.value
         ).toMap()
 
-        RoundedButton(label = "Update") {
+        RoundedButton(label = stringResource(id = R.string.update)) {
+            //TODO: move logic to view model
             if (bookUpdate) {
                 FirebaseFirestore.getInstance()
                     .collection("books")
@@ -226,16 +214,14 @@ fun ShowSimpleForm(
                     .addOnCompleteListener {
                         showToast(context, "Book Updated Successfully!")
                         navController.navigate(ReaderScreens.ReaderHomeScreen.name)
-
-                        // Log.d("Update", "ShowSimpleForm: ${task.result.toString()}")
+                         Log.d("ReaderBookUpdateScreen", "Book Updated Successfully!")
 
                     }.addOnFailureListener {
-                        Log.w("Error", "Error updating document", it)
+                        Log.w("ReaderBookUpdateScreen", "Error updating document", it)
                     }
             }
-
-
         }
+
         Spacer(modifier = Modifier.width(100.dp))
         val openDialog = remember {
             mutableStateOf(false)
@@ -245,6 +231,7 @@ fun ShowSimpleForm(
                 message = stringResource(id = R.string.sure) + "\n" +
                         stringResource(id = R.string.action), openDialog
             ) {
+                //TODO: move logic to view model
                 FirebaseFirestore.getInstance()
                     .collection("books")
                     .document(book.id!!)
@@ -260,17 +247,13 @@ fun ShowSimpleForm(
                             navController.navigate(ReaderScreens.ReaderHomeScreen.name)
                         }
                     }
-
             }
         }
 
-        RoundedButton("Delete") {
+        RoundedButton(stringResource(id = R.string.delete)) {
             openDialog.value = true
         }
-
     }
-
-
 }
 
 @Composable
@@ -282,7 +265,7 @@ fun ShowAlertDialog(
 
     if (openDialog.value) {
         AlertDialog(onDismissRequest = { openDialog.value = false },
-            title = { Text(text = "Delete Book") },
+            title = { Text(text = stringResource(id = R.string.delete_book)) },
             text = { Text(text = message) },
             buttons = {
                 Row(
@@ -290,14 +273,12 @@ fun ShowAlertDialog(
                     horizontalArrangement = Arrangement.Center
                 ) {
                     TextButton(onClick = { onYesPressed.invoke() }) {
-                        Text(text = "Yes")
+                        Text(text = stringResource(id = R.string.button_yes))
 
                     }
                     TextButton(onClick = { openDialog.value = false }) {
-                        Text(text = "No")
-
+                        Text(text = stringResource(id = R.string.button_no))
                     }
-
                 }
             })
     }
@@ -309,7 +290,7 @@ fun ShowAlertDialog(
 fun SimpleForm(
     modifier: Modifier = Modifier,
     loading: Boolean = false,
-    defaultValue: String = "Great Book!",
+    defaultValue: String = stringResource(id = R.string.great_book),
     onSearch: (String) -> Unit
 ) {
     Column {
@@ -325,16 +306,14 @@ fun SimpleForm(
                 .background(Color.White, CircleShape)
                 .padding(horizontal = 20.dp, vertical = 12.dp),
             valueState = textFieldValue,
-            labelId = "Enter Your thoughts",
+            labelId = stringResource(id = R.string.enter_thoughts),
             enabled = true,
             onAction = KeyboardActions {
                 if (!valid) return@KeyboardActions
                 onSearch(textFieldValue.value.trim())
                 keyboardController?.hide()
             })
-
     }
-
 }
 
 @Composable
@@ -351,15 +330,10 @@ fun ShowBookUpdate(
             ) {
                 CardListItem(book = bookInfo.data!!.first { mBook ->
                     mBook.googleBookId == bookItemId
-
                 }, onPressDetails = {})
-
             }
         }
-
     }
-
-
 }
 
 @Composable
@@ -423,12 +397,7 @@ fun CardListItem(
                         bottom = 8.dp
                     )
                 )
-
             }
-
         }
-
-
     }
-
 }
